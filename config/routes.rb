@@ -1,4 +1,6 @@
 EsportsMafia::Application.routes.draw do
+  resources :votes
+
   devise_for :users
   root "pages#home"
 
