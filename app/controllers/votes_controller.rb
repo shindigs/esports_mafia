@@ -14,7 +14,7 @@ class VotesController < ApplicationController
 
   # GET /votes/new
   def new
-    @vote = Vote.new
+    @vote = current_user.votes.build
   end
 
   # GET /votes/1/edit
@@ -24,15 +24,13 @@ class VotesController < ApplicationController
   # POST /votes
   # POST /votes.json
   def create
-    @vote = Vote.new(vote_params)
+    @vote = current_user.votes.build(vote_params)
 
     respond_to do |format|
       if @vote.save
-        format.html { redirect_to @vote, notice: 'Vote was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @vote }
+        redirect_to @vote, notice: 'Vote was successfully submitted'}
       else
-        format.html { render action: 'new' }
-        format.json { render json: @vote.errors, status: :unprocessable_entity }
+        render action: 'new'
       end
     end
   end
@@ -40,14 +38,10 @@ class VotesController < ApplicationController
   # PATCH/PUT /votes/1
   # PATCH/PUT /votes/1.json
   def update
-    respond_to do |format|
-      if @vote.update(vote_params)
-        format.html { redirect_to @vote, notice: 'Vote was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: 'edit' }
-        format.json { render json: @vote.errors, status: :unprocessable_entity }
-      end
+    if @vote.update(vote_params)
+      redirects_to @vote, note: "vote was update"
+    else
+      render action: 'edit'
     end
   end
 
@@ -55,10 +49,7 @@ class VotesController < ApplicationController
   # DELETE /votes/1.json
   def destroy
     @vote.destroy
-    respond_to do |format|
-      format.html { redirect_to votes_url }
-      format.json { head :no_content }
-    end
+    redirects_to pins_url
   end
 
   private
@@ -67,6 +58,9 @@ class VotesController < ApplicationController
       @vote = Vote.find(params[:id])
     end
 
+    def correct_user
+      @vote = current_user.pins.find_by(id: params[:id])
+      redirect_to vote_path, notice: "Cannot edit this vote" if @vote.nil?
     # Never trust parameters from the scary internet, only allow the white list through.
     def vote_params
       params.require(:vote).permit(:player_name)

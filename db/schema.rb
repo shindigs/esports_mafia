@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131008014259) do
+ActiveRecord::Schema.define(version: 20131008015308) do
 
   create_table "users", force: true do |t|
     t.string   "email",                  default: "", null: false
@@ -35,6 +35,9 @@ ActiveRecord::Schema.define(version: 20131008014259) do
     t.string   "player_name"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "user_id"
   end
+
+  add_index "votes", ["user_id"], name: "index_votes_on_user_id"
 
 end
