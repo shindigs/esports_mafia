@@ -3,7 +3,7 @@ class User < ActiveRecord::Base
   # :confirmable, :lockable, :timeoutable and :omniauthable
   attr_accessor :login
 
-  attr_accesible :username, :email, :password, :password_confirmation, :remember_me, :login
+  #attr_accesible :username, :email, :password, :password_confirmation, :remember_me, :login
 
 
   devise :database_authenticatable, :registerable,
