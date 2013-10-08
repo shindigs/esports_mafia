@@ -25,21 +25,19 @@ class VotesController < ApplicationController
   # POST /votes.json
   def create
     @vote = current_user.votes.build(vote_params)
-
-    respond_to do |format|
       if @vote.save
-        redirect_to @vote, notice: 'Vote was successfully submitted'}
+        redirect_to @vote, notice: 'Vote was successfully submitted'
       else
         render action: 'new'
       end
-    end
   end
+
 
   # PATCH/PUT /votes/1
   # PATCH/PUT /votes/1.json
   def update
     if @vote.update(vote_params)
-      redirects_to @vote, note: "vote was update"
+      redirects_to @vote, notice: "vote was update"
     else
       render action: 'edit'
     end
@@ -49,7 +47,7 @@ class VotesController < ApplicationController
   # DELETE /votes/1.json
   def destroy
     @vote.destroy
-    redirects_to pins_url
+    redirects_to votes_url
   end
 
   private
@@ -60,9 +58,12 @@ class VotesController < ApplicationController
 
     def correct_user
       @vote = current_user.pins.find_by(id: params[:id])
-      redirect_to vote_path, notice: "Cannot edit this vote" if @vote.nil?
+      redirect_to votes_path, notice: "Cannot edit this vote" if @vote.nil?
+    end
+
     # Never trust parameters from the scary internet, only allow the white list through.
     def vote_params
-      params.require(:vote).permit(:player_name)
+      params.require(:vote).permit(:player_name)    
     end
+
 end

@@ -15,9 +15,9 @@
       <tr>
         <td><%= vote.player_name %> by <%= vote.user %> </td>
         <td><%= link_to 'Show', vote %></td>
-        <% if @vote.user == current_user %>
+        
           <td><%= link_to 'Edit', edit_vote_path(vote) %></td>
-        <% end %>
+       
         <td><%= link_to 'Destroy', vote, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
@@ -27,5 +27,5 @@
 <br>
 
 <% if user_signed_in? %>
-<%= link_to 'New Vote', new_vote_path %>
+  <%= link_to 'New Vote', new_vote_path %>
 <% end %>
